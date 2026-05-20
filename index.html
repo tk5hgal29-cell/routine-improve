@@ -81,7 +81,14 @@
   }
   
   .step-btn {
-    padding: 5px 12px;
+    min-height: 44px;
+
+    padding: 10px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
     border-radius: 20px;
     border: 1px solid var(--border);
     background: transparent;
@@ -216,6 +223,7 @@
     transition: all 0.2s;
   }
   .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:active { background: var(--accent); color: #fff; }
   .btn-primary {
     background: var(--accent);
     color: #fff;

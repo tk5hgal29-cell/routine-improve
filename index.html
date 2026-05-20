@@ -415,17 +415,19 @@
 
   /* ─── フッターボタン ─── */
   .footer-bar {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     left: 0; right: 0;
     background: rgba(244,248,251,0.95);
     backdrop-filter: blur(12px);
     border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem;
     display: flex;
     justify-content: center;
     gap: 10px;
     z-index: 100;
+
+    padding: max(12px, env(safe-area-inset-bottom));
+
   }
 
   /* ─── 凡例 ─── */

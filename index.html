@@ -34,7 +34,7 @@
     color: var(--text);
     font-family: 'Zen Kaku Gothic New', sans-serif;
     font-weight: 300;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
   /* ─── 背景 ─── */
   body::before {
@@ -1050,9 +1050,9 @@ ${history ? history.percent : 0}%
       </div>
 
     </div>
-    renderHeatmap();
-
   `).join('');
+
+      renderHeatmap();
 }
 // ─── 状態管理 ───
 let rules = JSON.parse(localStorage.getItem('habit-rules') || '[]');

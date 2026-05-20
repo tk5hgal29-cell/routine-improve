@@ -860,6 +860,22 @@
 </main>
 
 <script>
+
+  function getRecoveryPoints(){
+
+    let points = 0;
+    let lastDone = false;
+  for (let i = 60; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateKey = d.toISOString().slice(0, 10);
+    const history = JSON.parse(localStorage.getItem('habit-history-' + dateKey) || 'null');
+    const done = history && history.done > 0;
+    if (done && !lastDone) points++; // 前日や直前が未達成→今日は達成＝再開
+    lastDone = done;
+  }
+  return points;
+  }
   function renderHome() {
     loadTodayData();
 
@@ -876,6 +892,8 @@
   "5分でも立派な継続。"
 
 ];
+document.getElementById('recovery-points').textContent = getRecoveryPoints();
+
 
 document.getElementById(
   'daily-quote'
@@ -959,6 +977,23 @@ for(let i = 6; i >= 0; i--){
     </div>
   `;
 }
+// 再開祝福メッセージ
+function showRecoveryMessage() {
+  // 今日が再開日なら祝福
+  let lastDone = false;
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yKey = yesterday.toISOString().slice(0, 10);
+  const yHistory = JSON.parse(localStorage.getItem('habit-history-' + yKey) || 'null');
+  lastDone = yHistory && yHistory.done > 0;
+  const todayHistory = JSON.parse(localStorage.getItem('habit-history-' + today()) || 'null');
+  const todayDone = todayHistory && todayHistory.done > 0;
+  if (todayDone && !lastDone) {
+    setTimeout(() => {
+      alert('🎉 おかえりなさい！\n\nまた再開できたことが一番大事です。');
+    }, 400);
+  }
+
 function renderHeatmap(){
 
   const grid =
@@ -1269,6 +1304,7 @@ function saveDay() {
   );
 
   renderHome();
+  showRecoveryMessage();
 }
 
 function escHtml(str) {

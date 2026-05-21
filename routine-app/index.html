@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>習慣デザインノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #f5fbff;
+    --card: rgba(255,255,255,0.82);
+    --sky: #78c8e6;
+    --sky-deep: #4ba3c7;
+ 
+    --warm: #ff7e6b;
+    --warm-soft: #ffb4a8;
+
+    --accent: #3a9bbf;
+    --accent2: #2c7da0;
+    --woop-w: #7f77dd;
+    --woop-o: #1d9e75;
+    --woop-ob: #d85a30;
+    --woop-p: #378add;
+    --if: #3a9bbf;
+    --then: #1d9e75;
+    --text: #24404f;
+    --muted: #7d99a8;
+    --border: rgba(120,200,230,0.18);
+    --shadow: 0 10px 30px rgba(120,200,230,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+  /* ─── 背景 ─── */
+  body::before {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 10%, rgba(180,225,245,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 90%, rgba(200,235,250,0.3) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── ヘッダー ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(244,248,251,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+  }
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .logo {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .step-nav {
+    display: flex;
+    gap: 6px;
+
+    
+  }
+  
+  .step-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    transition: all 0.2s;
+  }
+  .step-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* ─── メインコンテンツ ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 6rem;
+  }
+
+  /* ─── パネル ─── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ─── セクションタイトル ─── */
+  .page-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .page-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+/* ─── 今日の一言 ─── */
+  .quote-box{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(120,200,230,0.12),
+      rgba(255,126,107,0.12)
+    );
+
+  border-radius:16px;
+
+  padding:1rem;
+
+  margin-bottom:1.4rem;
+
+  font-size:14px;
+
+  line-height:1.8;
+
+  color:var(--text);
+
+  border:1px solid var(--border);
+}
+
+  /* ─── カード ─── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  /* ─── WOOPセクション ─── */
+  .woop-item {
+    margin-bottom: 1.2rem;
+  }
+  .woop-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .woop-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  .badge-w { background: rgba(127,119,221,0.12); color: var(--woop-w); }
+  .badge-o { background: rgba(29,158,117,0.12); color: var(--woop-o); }
+  .badge-ob { background: rgba(216,90,48,0.12); color: var(--woop-ob); }
+  .badge-p { background: rgba(55,138,221,0.12); color: var(--woop-p); }
+  .woop-desc {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  input[type=text], textarea, select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  input[type=text]:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  textarea { resize: vertical; min-height: 64px; line-height: 1.7; }
+
+  /* ─── ボタン ─── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-danger { border-color: #d85a30; color: #d85a30; }
+  .btn-danger:hover { background: rgba(216,90,48,0.08); }
+
+  /* ─── If-thenカード ─── */
+  .ifthen-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .ifthen-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ifthen-row:last-child { margin-bottom: 0; }
+  .it-label {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 44px;
+    text-align: center;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .if-label { background: rgba(58,155,191,0.12); color: var(--if); }
+  .then-label { background: rgba(29,158,117,0.12); color: var(--then); }
+  .it-text { font-size: 14px; flex: 1; }
+  .ifthen-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── チェックリスト ─── */
+  .habit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .habit-item:last-child { border-bottom: none; }
+  .check-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s;
+    font-size: 12px;
+    color: transparent;
+  }
+  .check-circle.done {
+    background: var(--woop-o);
+    border-color: var(--woop-o);
+    color: #fff;
+  }
+  .habit-content { flex: 1; }
+  .habit-name {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .habit-name.done { text-decoration: line-through; color: var(--muted); }
+  .habit-trigger {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .habit-reason {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    background: rgba(248,250,252,1);
+    color: var(--text);
+    resize: none;
+    min-height: 48px;
+    outline: none;
+  }
+  .habit-reason:focus { border-color: var(--accent); }
+
+  /* ─── 進捗バー ─── */
+  .prog-wrap {
+    margin: 1.5rem 0 1rem;
+  }
+  .prog-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .prog-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--woop-o));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── 日付 ─── */
+  .date-badge {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .date-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  /* ─── フローインジケーター ─── */
+  .flow-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+  }
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+  .flow-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Noto Serif JP', serif;
+    border: 2px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+  .flow-dot.done { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .flow-dot.active { border-color: var(--accent); color: var(--accent); }
+  .flow-name { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; }
+  .flow-line {
+    height: 2px;
+    flex: 1;
+    background: var(--border);
+    margin-bottom: 16px;
+    transition: background 0.3s;
+  }
+  .flow-line.done { background: var(--accent); }
+
+  /* ─── 空状態 ─── */
+  .empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .empty-icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+
+  /* ─── フッターボタン ─── */
+  .footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: rgba(244,248,251,0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 100;
+  }
+
+  /* ─── 凡例 ─── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  @media (max-width: 480px) {
+    .step-btn span { display: none; }
+    main { padding: 1.2rem 1rem 6rem; }
+  }
+  .dashboard-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:1.5rem;
+}
+
+.dashboard-card{
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.4);
+  border-radius:20px;
+  padding:1.2rem;
+  box-shadow:0 10px 30px rgba(120,200,230,0.15);
+}
+
+.dashboard-card.big{
+  grid-column:span 2;
+}
+
+.dash-label{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+.dash-value{
+  font-size:2.4rem;
+  font-weight:700;
+  color:var(--sky-deep);
+  margin-bottom:12px;
+}
+
+.dash-number{
+  font-size:2rem;
+  font-weight:700;
+  color:var(--warm);
+}
+
+.dash-sub{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.week-bars{
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  height:80px;
+  margin-top:12px;
+}
+
+.week-bar{
+  flex:1;
+  border-radius:10px 10px 4px 4px;
+  background:linear-gradient(
+    to top,
+    var(--warm),
+    var(--sky)
+  );
+  opacity:0.25;
+  transition:0.3s;
+}
+
+.week-bar.active{
+  opacity:1;
+}
+
+.habit-dashboard-card{
+  background:rgba(255,255,255,0.76);
+  border-radius:18px;
+  padding:1.2rem;
+  margin-bottom:1rem;
+  border:1px solid var(--border);
+}
+
+.habit-dashboard-title{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.mini-label{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+.mini-box{
+  background:#f7fbff;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:10px;
+  line-height:1.7;
+  font-size:13px;
+}
+.heatmap-card{
+  background:rgba(255,255,255,0.75);
+  border-radius:20px;
+  padding:1.2rem;
+  margin-bottom:1.2rem;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.heatmap-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+#heatmap-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+}
+
+.heat-day{
+  aspect-ratio:1;
+  border-radius:8px;
+  background:#eef6fb;
+  transition:0.3s;
+}
+
+.heat-0{
+  background:#edf4f8;
+}
+
+.heat-1{
+  background:#c7e9f5;
+}
+
+.heat-2{
+  background:#7ecce6;
+}
+
+.heat-3{
+  background:#ff9b85;
+}
+
+.heat-4{
+  background:#ff6b57;
+}
+
+/* ─── Phase 1: 最低モード ─── */
+.minimum-mode-bar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  margin-bottom:1rem;
+  border-radius:16px;
+  background:rgba(255,255,255,0.78);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  transition:background 0.2s, border-color 0.2s;
+}
+.minimum-mode-bar.is-on{
+  background:linear-gradient(135deg,rgba(120,200,230,0.14),rgba(255,180,168,0.12));
+  border-color:rgba(120,200,230,0.35);
+}
+.minimum-toggle{
+  position:relative;
+  width:48px;
+  height:28px;
+  flex-shrink:0;
+  cursor:pointer;
+}
+.minimum-toggle input{
+  position:absolute;
+  opacity:0;
+  width:0;
+  height:0;
+}
+.minimum-toggle-track{
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background:#e8f2f8;
+  transition:background 0.2s;
+}
+.minimum-toggle input:checked + .minimum-toggle-track{
+  background:linear-gradient(90deg,var(--sky),var(--warm-soft));
+}
+.minimum-toggle-thumb{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(36,64,79,0.12);
+  transition:transform 0.2s ease;
+  pointer-events:none;
+}
+.minimum-toggle input:checked ~ .minimum-toggle-thumb{
+  transform:translateX(20px);
+}
+.minimum-mode-copy{display:flex;flex-direction:column;gap:2px;}
+.minimum-mode-title{font-size:14px;font-weight:700;color:var(--text);}
+.minimum-mode-hint{font-size:11px;color:var(--muted);}
+.minimum-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:700;
+  padding:2px 8px;
+  margin-right:6px;
+  border-radius:10px;
+  background:rgba(255,180,168,0.35);
+  color:#c45a48;
+  vertical-align:middle;
+}
+.field-minimum{margin-top:10px;}
+.field-minimum-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+  font-size:12px;
+  color:var(--muted);
+}
+.min-label{background:rgba(255,180,168,0.25);color:#c45a48;}
+.minimum-preview{opacity:0.85;}
+.habit-minimum-note{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.habit-item.is-minimum .habit-name{font-weight:400;}
+
+/* ─── Phase 1: マイクロウィン ─── */
+.micro-wins-section{
+  background:rgba(255,255,255,0.76);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:1rem 1.1rem;
+  margin-bottom:1rem;
+  box-shadow:var(--shadow);
+}
+.micro-wins-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.micro-wins-title{font-size:13px;font-weight:700;color:var(--text);}
+.micro-wins-count{font-size:12px;color:var(--muted);}
+.micro-wins-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.micro-win-chip{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:10px 6px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(247,251,255,0.9);
+  cursor:pointer;
+  font-family:inherit;
+  color:var(--text);
+  transition:transform 0.2s, background 0.2s, border-color 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.micro-win-chip:disabled{cursor:default;opacity:0.92;}
+.micro-win-chip.is-done{
+  background:linear-gradient(160deg,rgba(120,200,230,0.2),rgba(255,200,190,0.25));
+  border-color:rgba(120,200,230,0.4);
+  transform:scale(1.02);
+}
+.micro-win-chip:not(:disabled):active{transform:scale(0.97);}
+.micro-win-emoji{font-size:1.25rem;line-height:1;}
+.micro-win-label{font-size:10px;line-height:1.35;color:var(--muted);}
+.micro-win-chip.is-done .micro-win-label{color:var(--accent);font-weight:700;}
+
+.micro-win-pop{
+  position:fixed;
+  left:50%;
+  top:42%;
+  transform:translate(-50%,-50%) scale(0.9);
+  z-index:300;
+  padding:12px 20px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border);
+  box-shadow:0 12px 40px rgba(120,200,230,0.25);
+  font-size:14px;
+  color:var(--accent);
+  font-weight:700;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.2s ease, transform 0.2s ease;
+}
+.micro-win-pop.is-visible{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+
+/* ─── Phase 1: 復帰UI ─── */
+.return-overlay{
+  position:fixed;
+  inset:0;
+  z-index:250;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem;
+  background:rgba(244,248,251,0.55);
+  backdrop-filter:blur(8px);
+  opacity:0;
+  transition:opacity 0.2s ease;
+}
+.return-overlay.is-visible{opacity:1;}
+.return-overlay[hidden]{display:none;}
+.return-card{
+  width:100%;
+  max-width:360px;
+  padding:2rem 1.5rem;
+  border-radius:24px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:0 20px 50px rgba(120,200,230,0.2);
+  text-align:center;
+  transform:translateY(8px);
+  transition:transform 0.2s ease;
+}
+.return-overlay.is-visible .return-card{transform:translateY(0);}
+.return-emoji{font-size:2.5rem;margin-bottom:0.6rem;}
+.return-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:0.5rem;
+}
+.return-message{
+  font-size:14px;
+  line-height:1.8;
+  color:var(--text);
+  margin-bottom:1.2rem;
+}
+.return-stats{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:1.2rem;
+  font-size:13px;
+  color:var(--muted);
+}
+.return-gap{
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--warm);
+}
+.return-faster{
+  font-size:13px;
+  color:var(--woop-o);
+  font-weight:700;
+}
+.week-bar-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex:1;
+}
+.week-bar-label{
+  font-size:10px;
+  margin-top:6px;
+  color:var(--muted);
+}
+
+@media (max-width:480px){
+  .micro-wins-grid{grid-template-columns:1fr;}
+  .micro-win-chip{
+    flex-direction:row;
+    justify-content:flex-start;
+    padding:12px 14px;
+  }
+  main{padding-bottom:calc(5rem + env(safe-area-inset-bottom,0px));}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms!important;
+    transition-duration:0.01ms!important;
+  }
+  .micro-win-pop{display:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">習慣デザインノート</div>
+    <div class="step-nav">
+  <button class="step-btn active" onclick="showPanel('home')">🏠 Home</button>
+
+  <button class="step-btn" onclick="showPanel('woop')">
+    ① WOOP
+  </button>
+
+  <button class="step-btn" onclick="showPanel('ifthen')">
+    ② If-then
+  </button>
+
+  <button class="step-btn" onclick="showPanel('check')">
+    ③ チェック
+  </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ══════════ HOME ══════════ -->
+<div class="panel active" id="panel-home">
+
+  <div class="page-title">
+    今日も少しずつ進もう 🌱
+  </div>
+
+  <p class="page-sub">
+    完璧じゃなくていい。<br>
+    1つできれば前進です。
+  </p>
+
+  <div class="quote-box" id="daily-quote"></div>
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-card big">
+      <div class="dash-label">今日の達成率</div>
+
+      <div class="dash-value" id="home-rate">
+        0%
+      </div>
+
+      <div class="prog-bar">
+        <div class="prog-fill" id="home-rate-fill"></div>
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="dash-label">小さな成功</div>
+
+      <div class="dash-number" id="micro-win-count">
+        0
+      </div>
+
+      <div class="dash-sub">/ 3 できた</div>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="dash-label">今週達成</div>
+
+      <div class="week-bars" id="week-bars"></div>
+    </div>
+
+  </div>
+
+  <section class="micro-wins-section" id="micro-wins-home" aria-label="小さな成功"></section>
+
+  <div id="habit-dashboard"></div>
+  <div class="heatmap-card">
+
+  <div class="heatmap-title">
+    継続カレンダー 🗓️
+  </div>
+
+  <div class="legend" id="heatmap-legend">
+    <span class="legend-item"><span class="legend-dot" style="background:#edf4f8"></span>未記録</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#c7e9f5"></span>少し</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#7ecce6"></span>半分</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#ff9b85"></span>ほぼ</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#ff6b57"></span>完璧</span>
+  </div>
+
+  <div id="heatmap-grid"></div>
+
+</div>
+
+</div>
+
+  <!-- ══════════ STEP 1: WOOP ══════════ -->
+  <div class="panel" id="panel-woop">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-dot active">W</div>
+        <div class="flow-name">WOOP</div>
+      </div>
+      <div class="flow-line" id="line-1"></div>
+      <div class="flow-step">
+        <div class="flow-dot" id="dot-ifthen">If</div>
+        <div class="flow-name">If-then</div>
+      </div>
+      <div class="flow-line" id="line-2"></div>
+      <div class="flow-step">
+        <div class="flow-dot" id="dot-check">✓</div>
+        <div class="flow-name">チェック</div>
+      </div>
+    </div>
+
+    <div class="page-title">習慣を設計する</div>
+    <p class="page-sub">WOOPは心理学的に最も効果的な目標設定法です。<br>4つの項目を埋めてから次のステップへ進みましょう。</p>
+
+    <div class="card">
+      <div class="woop-item">
+        <div class="woop-label">
+          <span class="woop-badge badge-w">W — Wish(目標）</span>
+          <span class="woop-desc">達成したい習慣を一言で</span>
+        </div>
+        <input type="text" id="woop-w" placeholder="例：毎朝7時に起きて英語の勉強を1時間する"/>
+      </div>
+
+      <div class="woop-item">
+        <div class="woop-label">
+          <span class="woop-badge badge-o">O — Outcome（成果）</span>
+          <span class="woop-desc">達成したらどんな未来が待っている？</span>
+        </div>
+        <textarea id="woop-o" placeholder="例：IELTSで6.5を取得し、留学が実現できる。外国人と自信を持って話せるようになる。"></textarea>
+      </div>
+
+      <div class="woop-item">
+        <div class="woop-label">
+          <span class="woop-badge badge-ob">O — Obstacle（障害）</span>
+          <span class="woop-desc">続けられなくなりそうな理由は？</span>
+        </div>
+        <textarea id="woop-ob" placeholder="例：夜遅くにゲームをして寝るのが遅くなる。眠くて朝起きられなくなる。"></textarea>
+      </div>
+
+      <div class="woop-item" style="margin-bottom:0;">
+        <div class="woop-label">
+          <span class="woop-badge badge-p">P — Plan（計画）</span>
+          <span class="woop-desc">障害が起きたらどうする？</span>
+        </div>
+        <textarea id="woop-p" placeholder="例：22時になったらゲームの電源を切り、スマホをリビングに置いて寝室に入る。"></textarea>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+      <button class="btn btn-primary" onclick="goToIfthen()">If-thenルールを作る →</button>
+    </div>
+  </div>
+
+  <!-- ══════════ STEP 2: If-then ══════════ -->
+  <div class="panel" id="panel-ifthen">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-dot done">W</div>
+        <div class="flow-name">WOOP</div>
+      </div>
+      <div class="flow-line done"></div>
+      <div class="flow-step">
+        <div class="flow-dot active">If</div>
+        <div class="flow-name">If-then</div>
+      </div>
+      <div class="flow-line" id="line-2b"></div>
+      <div class="flow-step">
+        <div class="flow-dot" id="dot-check2">✓</div>
+        <div class="flow-name">チェック</div>
+      </div>
+    </div>
+
+    <div class="page-title">行動ルールを決める</div>
+    <p class="page-sub">「もし〇〇なら、△△する」のルールを作りましょう。<br>具体的なトリガーと行動を結びつけると習慣化率が2倍になります。</p>
+
+    <!-- WOOPサマリー -->
+    <div class="card" style="border-left: 3px solid var(--woop-ob); padding-left: 1.2rem; background: rgba(216,90,48,0.03);">
+      <div style="font-size:11px; color:var(--woop-ob); font-weight:700; letter-spacing:0.05em; margin-bottom:6px;">WOOP の障害から自動生成</div>
+      <div id="woop-summary" style="font-size:13px; color:var(--text); line-height:1.7;"></div>
+    </div>
+
+    <!-- ルール追加フォーム -->
+    <div class="card">
+      <div style="font-size:13px; font-weight:700; margin-bottom:12px; color:var(--text);">新しいルールを追加</div>
+      <div style="margin-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <span class="it-label if-label">IF</span>
+          <span style="font-size:12px; color:var(--muted);">こうなったら（トリガー）</span>
+        </div>
+        <input type="text" id="new-if" placeholder="例：朝ごはんを食べ終えたら"/>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <span class="it-label then-label">THEN</span>
+          <span style="font-size:12px; color:var(--muted);">すぐにこれをする（行動）</span>
+        </div>
+        <input type="text" id="new-then" placeholder="例：英語を1時間勉強する"/>
+      </div>
+      <div class="field-minimum">
+        <div class="field-minimum-label">
+          <span class="it-label min-label">MIN</span>
+          <span>最低モード（しんどい日用・任意）</span>
+        </div>
+        <input type="text" id="new-minimum" placeholder="例：英単語を1個見る"/>
+      </div>
+      <button class="btn btn-primary" onclick="addRule()" style="width:100%;">+ ルールを追加する</button>
+    </div>
+
+    <!-- ルール一覧 -->
+    <div id="rules-list">
+      <div class="empty">
+        <div class="empty-icon">📋</div>
+        ルールを追加してください
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; margin-top:1rem;">
+      <button class="btn" onclick="showPanel('woop')">← WOOPに戻る</button>
+      <button class="btn btn-primary" onclick="goToCheck()">チェックリストへ →</button>
+    </div>
+  </div>
+
+  <!-- ══════════ STEP 3: チェックリスト ══════════ -->
+  <div class="panel" id="panel-check">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-dot done">W</div>
+        <div class="flow-name">WOOP</div>
+      </div>
+      <div class="flow-line done"></div>
+      <div class="flow-step">
+        <div class="flow-dot done">If</div>
+        <div class="flow-name">If-then</div>
+      </div>
+      <div class="flow-line done"></div>
+      <div class="flow-step">
+        <div class="flow-dot active">✓</div>
+        <div class="flow-name">チェック</div>
+      </div>
+    </div>
+
+    <div class="date-badge" id="today-date"></div>
+    <div class="page-title">今日の習慣チェック</div>
+    <p class="page-sub">できたことにチェックを。しんどい日は最低モードで大丈夫です。</p>
+
+    <div id="minimum-mode-slot"></div>
+
+    <section class="micro-wins-section" id="micro-wins-check" aria-label="小さな成功"></section>
+
+    <div class="prog-wrap">
+      <div class="prog-label">
+        <span>今日の達成率</span>
+        <span id="prog-text">0 / 0</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="card" id="checklist-area">
+      <div class="empty">
+        <div class="empty-icon">🌱</div>
+        If-thenルールを追加すると<br>ここにチェックリストが表示されます
+      </div>
+    </div>
+
+    <div style="margin-top:1rem; display:flex; gap:8px;">
+      <button class="btn" onclick="showPanel('ifthen')" style="flex:1;">← ルールを編集</button>
+      <button class="btn btn-primary" onclick="saveDay()" style="flex:1;">今日の記録を保存 ✓</button>
+    </div>
+  </div>
+
+</main>
+
+<div id="return-overlay" class="return-overlay" hidden>
+  <div class="return-card" role="dialog" aria-labelledby="return-title">
+    <div class="return-emoji">🌿</div>
+    <h2 class="return-title" id="return-title">おかえり</h2>
+    <p class="return-message">戻ってきてくれて、ありがとう。<br>ここに来ただけで、もう一歩です。</p>
+    <div class="return-stats">
+      <span>空白があった日数</span>
+      <span class="return-gap"><span id="return-gap-days">0</span> 日</span>
+      <span id="return-avg-gap">—</span>
+      <span id="return-faster-msg" class="return-faster" hidden>前回より早く戻ってきました ✨</span>
+    </div>
+    <button type="button" class="btn btn-primary" style="width:100%" onclick="dismissReturnOverlay()">
+      今日もゆっくり進もう
+    </button>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

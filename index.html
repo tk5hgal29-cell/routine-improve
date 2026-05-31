@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>習慣デザインノート</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" data-i18n="appName">習慣デザインノート</div>
+    <button type="button" class="btn-settings" onclick="openSettings()" aria-label="設定">⚙️</button>
+  </div>
+</header>
+
+<main id="panel-home">
+  <h1 class="home-greeting" data-i18n="homeGreeting">今日も、ここから</h1>
+  <p class="home-lead" data-i18n="homeLead">設定は必要なときだけ。Wish を見て、少し触るだけで大丈夫です。</p>
+
+  <div id="return-banner" class="return-banner" hidden></div>
+
+  <div id="wish-accordion" aria-label="Wish"></div>
+
+  <button type="button" class="btn btn-primary btn-check-today" id="btn-open-check" onclick="openCheckSheet()" data-i18n="todayCheck">
+    今日のチェックへ
+  </button>
+</main>
+
+<button type="button" class="fab" onclick="openWishModal()" aria-label="Wishを追加">+</button>
+
+<div id="panel-check" class="check-sheet" hidden>
+  <div class="check-sheet-inner">
+    <div class="check-sheet-head">
+      <div>
+        <div class="date-badge" id="today-date"></div>
+        <h2 class="check-sheet-title" data-i18n="checkTitle">今日のチェック</h2>
+      </div>
+      <button type="button" class="btn-icon" onclick="closeCheckSheet()" aria-label="close">×</button>
+    </div>
+    <p class="page-sub" id="check-sub" data-i18n="checkSub">できたことにチェック。しんどい日は最低モードでOKです。</p>
+    <p class="check-partial-hint" id="check-partial-hint" data-i18n="savePartialHint">途中でも保存できます 🌱</p>
+    <section class="micro-wins-section" id="micro-wins-check"></section>
+    <div class="prog-wrap">
+      <div class="prog-label">
+        <span class="check-prog-label" data-i18n="checkAchievement">今日の達成</span>
+        <span id="prog-text">0 / 0</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="card" id="checklist-area"></div>
+    <button type="button" class="btn btn-primary" id="btn-save-day" style="width:100%;margin-top:1rem" onclick="saveDay()" data-i18n="saveAndReturn">
+      保存してホームへ ✓
+    </button>
+  </div>
+</div>
+
+<div id="wish-modal" class="wish-modal" hidden>
+  <div class="wish-modal-card">
+    <h2 class="wish-modal-title" data-i18n="newWish">新しい Wish</h2>
+    <p class="wish-modal-hint" data-i18n="newWishHint">例：「英語を話せるようになりたい」</p>
+    <input type="text" id="new-wish-title" data-i18n-placeholder="newWishPlaceholder" placeholder="あなたの Wish を一言で"/>
+    <div style="display:flex;gap:8px;margin-top:1rem">
+      <button type="button" class="btn" style="flex:1" onclick="closeWishModal()" data-i18n="cancel">キャンセル</button>
+      <button type="button" class="btn btn-primary" style="flex:1" onclick="createWish()" data-i18n="addWish">追加する</button>
+    </div>
+  </div>
+</div>
+
+<div id="settings-sheet" class="settings-sheet" hidden>
+  <div class="settings-sheet-inner">
+    <div class="settings-sheet-head">
+      <h2 class="settings-sheet-title" data-i18n="settings">設定</h2>
+      <button type="button" class="btn-icon" onclick="closeSettings()" aria-label="close">×</button>
+    </div>
+    <div id="settings-body"></div>
+  </div>
+</div>
+
+<script src="js/app-classic.js"></script>
+</body>
+</html>
